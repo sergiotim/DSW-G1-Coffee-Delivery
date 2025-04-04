@@ -1,10 +1,10 @@
 import { Coffee, Package, ShoppingCart, Timer } from '@phosphor-icons/react'
 import { useTheme } from 'styled-components'
 
-import { Card } from '../../components/Card'
+import { CoffeeCard } from '../../components/CoffeeCard'
 
 import { CoffeeList, Heading, Hero, HeroContent, Info } from './styles'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react';
 
 interface Coffee {
   id: string;
@@ -13,15 +13,26 @@ interface Coffee {
   tags: string[];
   price: number;
   image: string;
+  quantity: number;
 };
-
-interface CoffeeResponse {
-  coffees: Coffee[];
-}
 
 export function Home() {
   const theme = useTheme();
 
+  useEffect(() => {
+    // request para a API para pegar os cafés
+    // e setar no estado
+  }, []);
+
+
+  
+  function incrementQuantity(id: string) {
+    // Aqui você pode fazer a lógica para incrementar a quantidade do café
+  }
+
+  function decrementQuantity(id: string) {
+    // Aqui você pode fazer a lógica para decrementar a quantidade do café
+  }
 
   return (
     <div>
@@ -90,7 +101,7 @@ export function Home() {
         <h2>Nossos cafés</h2>
 
         <div>
-            {[1,2,3].map((coffee) => (
+        {[1,2,3].map((coffee) => (
             <CoffeeCard key={coffee} coffee={{
               description: 'Café expresso tradicional com espuma cremosa',
               id: '1',
@@ -98,7 +109,11 @@ export function Home() {
               price: 9.90,
               tags: ['Tradicional', 'Comum'],
               title: 'Expresso Tradicional',
-            }} />
+              quantity: 1,
+            }}
+            incrementQuantity={incrementQuantity}
+            decrementQuantity={decrementQuantity}
+            />
           ))}
         </div>
       </CoffeeList>

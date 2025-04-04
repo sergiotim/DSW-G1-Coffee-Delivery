@@ -27,7 +27,7 @@ type CoffeeCardProps = {
   decrementQuantity: (id: string) => void
 }
 
-export function CoffeeCard({ coffee, incrementQuantity, decrementQuantity }: CoffeeCardProps) {
+export function CoffeeCard({ }: CoffeeCardProps) {
   const theme = useTheme();
 
   function handleAddItem() {
@@ -57,9 +57,9 @@ export function CoffeeCard({ coffee, incrementQuantity, decrementQuantity }: Cof
 
         <Order $itemAdded={false}>
           <QuantityInput
-            quantity={coffee.quantity } // Aqui você pode passar a quantidade do café
-            incrementQuantity={() => incrementQuantity(coffee.id)} // Aqui você pode passar a função de incrementar
-            decrementQuantity={() => decrementQuantity(coffee.id)} // Aqui você pode passar a função de decrementar
+            quantity={5} // Aqui você pode passar a quantidade do café
+            incrementQuantity={() => {}} // Aqui você pode passar a função de incrementar
+            decrementQuantity={() => {}} // Aqui você pode passar a função de decrementar
           />
 
           <button onClick={handleAddItem}>

@@ -19,7 +19,7 @@ export function Header() {
           <span>Palmas, TO</span>
         </div>
 
-        <Link to={`cart`} aria-disabled={cart.length === 0}>
+        <Link to={`cart`}>
           <ShoppingCart size={22} weight="fill" />
           {cart.length > 0 ? <span>{cart.length}</span> : null}
         </Link>

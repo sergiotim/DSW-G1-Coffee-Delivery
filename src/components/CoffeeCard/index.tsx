@@ -13,35 +13,31 @@ import {
   Title,
 } from './styles'
 
-type Props = {
+type CoffeeCardProps = {
   coffee: {
-    id: string
-    title: string
-    description: string
-    tags: string[]
-    price: number
-    image: string
-  }
+    id: string;
+    title: string;
+    description: string;
+    tags: string[];
+    price: number;
+    image: string;
+    quantity: number
+  },
+  incrementQuantity: (id: string) => void
+  decrementQuantity: (id: string) => void
 }
 
-export function CoffeeCard({ coffee }: Props) {
-  const theme = useTheme()
-
-  function incrementQuantity() {
-    // escrever sua lógica aqui
-  }
-
-  function decrementQuantity() {
-    // escrever sua lógica aqui
-  }
+export function CoffeeCard({ coffee, incrementQuantity, decrementQuantity }: CoffeeCardProps) {
+  const theme = useTheme();
 
   function handleAddItem() {
-    // escrever sua lógica aqui
+    console.log('Adicionar item ao carrinho')
+    return;
   }
 
   return (
     <Container>
-      <CoffeeImg src={"/images/coffees/expresso-cremoso.png"} alt={coffee.title} />
+      <CoffeeImg src={"/images/coffees/expresso-cremoso.png"} alt="Expresso Tradicional" />
 
       <Tags>
         {/** Aqui você pode mapear os tags do café */ }
@@ -61,9 +57,9 @@ export function CoffeeCard({ coffee }: Props) {
 
         <Order $itemAdded={false}>
           <QuantityInput
-            quantity={20} // Aqui você pode passar a quantidade do café
-            incrementQuantity={incrementQuantity} // Aqui você pode passar a função de incrementar
-            decrementQuantity={decrementQuantity} // Aqui você pode passar a função de decrementar
+            quantity={coffee.quantity } // Aqui você pode passar a quantidade do café
+            incrementQuantity={() => incrementQuantity(coffee.id)} // Aqui você pode passar a função de incrementar
+            decrementQuantity={() => decrementQuantity(coffee.id)} // Aqui você pode passar a função de decrementar
           />
 
           <button onClick={handleAddItem}>

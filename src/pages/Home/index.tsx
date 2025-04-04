@@ -5,7 +5,6 @@ import { Card } from '../../components/Card'
 
 import { CoffeeList, Heading, Hero, HeroContent, Info } from './styles'
 import { useEffect, useState } from 'react'
-import {api} from '../../serves/api';
 
 interface Coffee {
   id: string;
@@ -22,22 +21,7 @@ interface CoffeeResponse {
 
 export function Home() {
   const theme = useTheme();
-  const [coffees, setCoffees] = useState<Coffee[]>([]);
 
-  useEffect(() => {
-    async function fetchCoffees() {
-      try {
-        const response = await api.get<Coffee[]>('/coffees');
-        console.log(response);
-
-        setCoffees(response.data);
-      } catch (error) {
-        console.error('Error fetching coffees:', error);
-      }
-    }
-
-    fetchCoffees();
-  }, []);
 
   return (
     <div>
@@ -106,8 +90,15 @@ export function Home() {
         <h2>Nossos cafés</h2>
 
         <div>
-          {coffees.map((coffee) => (
-            <Card key={coffee.id} coffee={coffee} />
+            {[1,2,3].map((coffee) => (
+            <CoffeeCard key={coffee} coffee={{
+              description: 'Café expresso tradicional com espuma cremosa',
+              id: '1',
+              image: "/images/coffees/expresso-cremoso.png",
+              price: 9.90,
+              tags: ['Tradicional', 'Comum'],
+              title: 'Expresso Tradicional',
+            }} />
           ))}
         </div>
       </CoffeeList>

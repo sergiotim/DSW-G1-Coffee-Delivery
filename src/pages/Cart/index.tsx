@@ -75,60 +75,19 @@ export function Cart() {
   
   /** Adicionando os tags dos cafés no array amountTags
    * Se o tag já existir, não adiciona*/ 
-  coffeesInCart.map(coffee => coffee.tags.map((tag) => {
-    if (!amountTags.includes(tag)) {
-      amountTags.push(tag);
-    }
-  }));
   
   // valor total dos cafés no carrinho
-  const totalItemsPrice = coffeesInCart.reduce((currencyValue, coffee) => {
-    return currencyValue + coffee.price * coffee.quantity
-  }, 0)
+  const totalItemsPrice = 0
 
   
   function handleItemIncrement(itemId: string) {
-    setCoffeesInCart((prevState) =>
-      prevState.map((coffee) => {
-        if (coffee.id === itemId) {
-          const coffeeQuantity = coffee.quantity + 1;
-          const subTotal = coffee.price * coffeeQuantity;
-          // Atualiza o subtotal do café
-          return {
-            ...coffee,
-            quantity: coffeeQuantity,
-            subTotal,
-          }
-        }
-        return coffee
-      }
-      ),
-    ) 
   }
 
   function handleItemDecrement(itemId: string) {
-    setCoffeesInCart((prevState) =>
-      prevState.map((coffee) => {
-        if (coffee.id === itemId && coffee.quantity > 1) {
-          const coffeeQuantity = coffee.quantity - 1;
-          const subTotal = coffee.price * coffeeQuantity;
-          // Atualiza o subtotal do café
-          return {
-            ...coffee,
-            quantity: coffeeQuantity,
-            subTotal,
-          }
-        }
-        return coffee
-      }),
-    )
   }
 
   function handleItemRemove(itemId: string) {
     // coloque seu código aqui
-    setCoffeesInCart((prevState) =>
-      prevState.filter((coffee) => coffee.id !== itemId),
-    )
   }
 
 console.log({frete: DELIVERY_PRICE * amountTags.length});
@@ -156,11 +115,11 @@ console.log({frete: DELIVERY_PRICE * amountTags.length});
                     <CoffeeInfo>
                       <QuantityInput
                         quantity={coffee.quantity}
-                        incrementQuantity={() => handleItemIncrement(coffee.id)}
-                        decrementQuantity={() => handleItemDecrement(coffee.id)}
+                        incrementQuantity={() => {}}
+                        decrementQuantity={() => {}}
                       />
 
-                      <button onClick={() => handleItemRemove(coffee.id)}>
+                      <button onClick={() => {}}>
                         <Trash />
                         <span>Remover</span>
                       </button>
@@ -168,7 +127,7 @@ console.log({frete: DELIVERY_PRICE * amountTags.length});
                   </div>
                 </div>
 
-                <aside>R$ {coffee.subTotal?.toFixed(2)}</aside>
+                <aside>R$ 10,00</aside>
               </Coffee>
 
               <span />
@@ -202,7 +161,7 @@ console.log({frete: DELIVERY_PRICE * amountTags.length});
                 {new Intl.NumberFormat('pt-br', {
                   currency: 'BRL',
                   style: 'currency',
-                }).format(totalItemsPrice + (DELIVERY_PRICE * amountTags.length))}
+                }).format(0)}
               </span>
             </div>
           </CartTotalInfo>

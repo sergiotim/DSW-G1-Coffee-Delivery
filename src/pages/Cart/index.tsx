@@ -88,47 +88,15 @@ export function Cart() {
 
   
   function handleItemIncrement(itemId: string) {
-    setCoffeesInCart((prevState) =>
-      prevState.map((coffee) => {
-        if (coffee.id === itemId) {
-          const coffeeQuantity = coffee.quantity + 1;
-          const subTotal = coffee.price * coffeeQuantity;
-          // Atualiza o subtotal do café
-          return {
-            ...coffee,
-            quantity: coffeeQuantity,
-            subTotal,
-          }
-        }
-        return coffee
-      }
-      ),
-    ) 
+    // coloque seu código aqui
   }
 
   function handleItemDecrement(itemId: string) {
-    setCoffeesInCart((prevState) =>
-      prevState.map((coffee) => {
-        if (coffee.id === itemId && coffee.quantity > 1) {
-          const coffeeQuantity = coffee.quantity - 1;
-          const subTotal = coffee.price * coffeeQuantity;
-          // Atualiza o subtotal do café
-          return {
-            ...coffee,
-            quantity: coffeeQuantity,
-            subTotal,
-          }
-        }
-        return coffee
-      }),
-    )
+    // coloque seu código aqui
   }
 
   function handleItemRemove(itemId: string) {
     // coloque seu código aqui
-    setCoffeesInCart((prevState) =>
-      prevState.filter((coffee) => coffee.id !== itemId),
-    )
   }
 
 console.log({frete: DELIVERY_PRICE * amountTags.length});

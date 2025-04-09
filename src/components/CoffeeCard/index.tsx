@@ -41,18 +41,17 @@ export function CoffeeCard({ coffee, incrementQuantity, decrementQuantity }: Cof
 
       <Tags>
         {/** Aqui você pode mapear os tags do café */ }
-        <span key={'Tradicional'}>Tradicional</span>
-        <span key={'Comum'}>Comum</span>
+        {coffee.tags.map((tag) => <span key={tag}>{tag}</span>)}
       </Tags>
 
-      <Title>Expresso Tradicional</Title>
+      <Title>{coffee.title}</Title>
 
-      <Description>Café expresso tradicional com espuma cremosa</Description>
+      <Description>{coffee.description}</Description>
 
       <Control>
         <Price>
           <span>R$</span>
-          <span>{4.90.toFixed(2)}</span> {/** Aqui você pode passar o preço do café */}
+          <span>{coffee.price.toFixed(2)}</span> {/** Aqui você pode passar o preço do café */}
         </Price>
 
         <Order $itemAdded={false}>

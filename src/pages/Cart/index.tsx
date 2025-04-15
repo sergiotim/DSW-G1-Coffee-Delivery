@@ -73,37 +73,34 @@ export function Cart() {
 
   const amountTags: string[] = [];
   
-  /** Adicionando os tags dos cafés no array amountTags
-   * Se o tag já existir, não adiciona*/ 
   coffeesInCart.map(coffee => coffee.tags.map((tag) => {
     if (!amountTags.includes(tag)) {
       amountTags.push(tag);
     }
   }));
   
-  // valor total dos cafés no carrinho
   const totalItemsPrice = coffeesInCart.reduce((currencyValue, coffee) => {
     return currencyValue + coffee.price * coffee.quantity
   }, 0)
 
   
   function handleItemIncrement(itemId: string) {
-    setCoffeesInCart((prevState) =>
-      prevState.map((coffee) => {
-        if (coffee.id === itemId) {
-          const coffeeQuantity = coffee.quantity + 1;
-          const subTotal = coffee.price * coffeeQuantity;
-          // Atualiza o subtotal do café
-          return {
-            ...coffee,
-            quantity: coffeeQuantity,
-            subTotal,
+      setCoffeesInCart((prevState) => {
+        const result = prevState.map((coffee) => {
+          if (coffee.id === itemId) {
+            const coffeeQuantity = coffee.quantity + 1;
+            const subTotal = coffee.price * coffeeQuantity;
+            return {
+              ...coffee,
+              quantity: coffeeQuantity,
+              subTotal,
+            }
           }
-        }
         return coffee
-      }
-      ),
-    ) 
+      })
+      
+        return result
+      });
   }
 
   function handleItemDecrement(itemId: string) {
@@ -112,7 +109,6 @@ export function Cart() {
         if (coffee.id === itemId && coffee.quantity > 1) {
           const coffeeQuantity = coffee.quantity - 1;
           const subTotal = coffee.price * coffeeQuantity;
-          // Atualiza o subtotal do café
           return {
             ...coffee,
             quantity: coffeeQuantity,
@@ -125,7 +121,6 @@ export function Cart() {
   }
 
   function handleItemRemove(itemId: string) {
-    // coloque seu código aqui
     setCoffeesInCart((prevState) =>
       prevState.filter((coffee) => coffee.id !== itemId),
     )

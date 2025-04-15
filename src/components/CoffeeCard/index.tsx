@@ -1,4 +1,4 @@
-import { ShoppingCart } from '@phosphor-icons/react'
+import { ShoppingCart, Heart, HeartStraight, HeartBreak, HeartHalf  } from '@phosphor-icons/react'
 import { useTheme } from 'styled-components'
 
 import { QuantityInput } from '../Form/QuantityInput'
@@ -22,18 +22,15 @@ type CoffeeCardProps = {
     price: number;
     image: string;
     quantity: number
+    favorite: boolean;
   },
   incrementQuantity: (id: string) => void
   decrementQuantity: (id: string) => void
+  handleFavoriteCoffee: (id: string) => void
 }
 
-export function CoffeeCard({ coffee, incrementQuantity, decrementQuantity }: CoffeeCardProps) {
+export function CoffeeCard({ coffee, incrementQuantity, decrementQuantity, handleFavoriteCoffee }: CoffeeCardProps) {
   const theme = useTheme();
-
-  function handleAddItem() {
-    console.log('Adicionar item ao carrinho')
-    return;
-  }
 
   return (
     <Container>
@@ -61,8 +58,8 @@ export function CoffeeCard({ coffee, incrementQuantity, decrementQuantity }: Cof
             decrementQuantity={() => decrementQuantity(coffee.id)} // Aqui você pode passar a função de decrementar
           />
 
-          <button onClick={handleAddItem}>
-            <ShoppingCart size={22} color={theme.colors['base-card']} />
+          <button onClick={() => handleFavoriteCoffee(coffee.id)}>
+            <Heart size={22}  color={!coffee.favorite ? theme.colors['base-card'] : "red"} />
           </button>
         </Order>
       </Control>

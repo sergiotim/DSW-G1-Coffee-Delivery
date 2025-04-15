@@ -15,6 +15,7 @@ interface Coffee {
   price: number;
   image: string;
   quantity: number;
+  favorite: boolean;
 };
 
 export function Home() {
@@ -63,6 +64,21 @@ export function Home() {
       }
       ),
     )
+  }
+
+  function handleFavoriteCoffee(id: string) {
+    setCoffees((prevState) =>
+      prevState.map((coffee) => {
+        if (coffee.id === id) {
+          return {
+            ...coffee,
+            favorite: !coffee.favorite,
+          }
+        }
+        return coffee
+      }),
+    )
+    
   }
 
   return (
@@ -138,6 +154,7 @@ export function Home() {
               coffee={coffee}
               incrementQuantity={incrementQuantity}
               decrementQuantity={decrementQuantity}
+              handleFavoriteCoffee={handleFavoriteCoffee}
             />
           ))}
         </div>

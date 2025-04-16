@@ -1,12 +1,12 @@
-import { Coffee, Package, ShoppingCart, Timer } from '@phosphor-icons/react'
-import { useTheme } from 'styled-components'
+import { Coffee, Package, ShoppingCart, Timer } from "@phosphor-icons/react";
+import { useTheme } from "styled-components";
 
-import { CoffeeCard } from '../../components/CoffeeCard'
+import { CoffeeCard } from "../../components/CoffeeCard";
 
-import { CoffeeList, Heading, Hero, HeroContent, Info, Navbar } from './styles'
-import { useEffect, useState } from 'react';
-import { Radio } from '../../components/Form/Radio';
-import { api } from '../../serves/api';
+import { CoffeeList, Heading, Hero, HeroContent, Info, Navbar } from "./styles";
+import { useEffect, useState } from "react";
+import { Radio } from "../../components/Form/Radio";
+import { api } from "../../serves/api";
 
 interface Coffee {
   id: string;
@@ -17,24 +17,23 @@ interface Coffee {
   image: string;
   quantity: number;
   favorite: boolean;
-};
+}
 
 export function Home() {
   const theme = useTheme();
   const [coffees, setCoffees] = useState<Coffee[]>([]);
+  const [filter, setFilter] = useState<string>("");
 
   useEffect(() => {
     async function fetchCoffees() {
-      const response = await api('/coffees');
+      const response = await api("/coffees");
       setCoffees(response.data);
 
-      console.log({coffees: response.data});
+      console.log({ coffees: response.data });
     }
     fetchCoffees();
   }, []);
 
-
-  
   function incrementQuantity(id: string) {
     setCoffees((prevState) =>
       prevState.map((coffee) => {
@@ -42,11 +41,10 @@ export function Home() {
           return {
             ...coffee,
             quantity: coffee.quantity + 1,
-          }
+          };
         }
-        return coffee
-      }
-      ),
+        return coffee;
+      })
     );
   }
 
@@ -57,10 +55,10 @@ export function Home() {
           return {
             ...coffee,
             quantity: coffee.quantity - 1,
-          }
+          };
         }
-        return coffee
-      }),
+        return coffee;
+      })
     );
   }
 
@@ -71,12 +69,11 @@ export function Home() {
           return {
             ...coffee,
             favorite: !coffee.favorite,
-          }
+          };
         }
-        return coffee
-      }),
-    )
-    
+        return coffee;
+      })
+    );
   }
 
   return (
@@ -99,7 +96,7 @@ export function Home() {
                   size={32}
                   weight="fill"
                   color={theme.colors.background}
-                  style={{ backgroundColor: theme.colors['yellow-dark'] }}
+                  style={{ backgroundColor: theme.colors["yellow-dark"] }}
                 />
                 <span>Compra simples e segura</span>
               </div>
@@ -109,7 +106,7 @@ export function Home() {
                   size={32}
                   weight="fill"
                   color={theme.colors.background}
-                  style={{ backgroundColor: theme.colors['base-text'] }}
+                  style={{ backgroundColor: theme.colors["base-text"] }}
                 />
                 <span>Embalagem mantém o café intacto</span>
               </div>
@@ -143,45 +140,65 @@ export function Home() {
       </Hero>
 
       <CoffeeList>
-
         <h2>Nossos cafés</h2>
         <Navbar>
           <Radio
-            onClick={() => {}}
-            isSelected={false}
+            onClick={() => {
+              filter === "tradicional"
+                ? setFilter("")
+                : setFilter("tradicional");
+            }}
+            isSelected={filter === "tradicional"}
             value="tradicional"
           >
             <span>Tradicional</span>
           </Radio>
           <Radio
-            onClick={() => {}}
-            isSelected={false}
+            onClick={() => {
+              filter === "gelado" ? setFilter("") : setFilter("gelado");
+            }}
+            isSelected={filter === "gelado"}
             value="gelado"
           >
             <span>Gelado</span>
           </Radio>
           <Radio
-            onClick={() => {}}
-            isSelected={false}
+            onClick={() => {
+              filter === "com leite" ? setFilter("") : setFilter("com leite");
+            }}
+            isSelected={filter === "com leite"}
             value="com leite"
           >
             <span>Com leite</span>
           </Radio>
         </Navbar>
 
-
         <div>
-          {coffees.map((coffee) => (
-            <CoffeeCard
-              key={coffee.id}
-              coffee={coffee}
-              incrementQuantity={incrementQuantity}
-              decrementQuantity={decrementQuantity}
-              handleFavoriteCoffee={handleFavoriteCoffee}
-            />
-          ))}
+          {filter === ""
+            ? coffees.map((coffee) => (
+                <CoffeeCard
+                  key={coffee.id}
+                  coffee={coffee}
+                  incrementQuantity={incrementQuantity}
+                  decrementQuantity={decrementQuantity}
+                  handleFavoriteCoffee={handleFavoriteCoffee}
+                />
+              ))
+            : coffees.map((coffee) =>
+                coffee.tags.includes(filter) ? (
+                  <CoffeeCard
+                    key={coffee.id}
+                    coffee={coffee}
+                    incrementQuantity={incrementQuantity}
+                    decrementQuantity={decrementQuantity}
+                    handleFavoriteCoffee={handleFavoriteCoffee}
+                  />
+                ) : (
+                  ""
+                )
+              )}
         </div>
       </CoffeeList>
     </div>
-  )
+  );
 }

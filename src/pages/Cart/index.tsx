@@ -1,11 +1,11 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState } from "react";
 import {
   Bank,
   CreditCard,
   CurrencyDollar,
   Money,
   Trash,
-} from '@phosphor-icons/react'
+} from "@phosphor-icons/react";
 
 import {
   CartTotal,
@@ -19,18 +19,19 @@ import {
   PaymentErrorMessage,
   PaymentHeading,
   PaymentOptions,
-} from './styles'
-import { Tags } from '../../components/CoffeeCard/styles';
-import { QuantityInput } from '../../components/Form/QuantityInput';
-import { Radio } from '../../components/Form/Radio';
+} from "./styles";
+import { Tags } from "../../components/CoffeeCard/styles";
+import { QuantityInput } from "../../components/Form/QuantityInput";
+import { Radio } from "../../components/Form/Radio";
+
 
 export interface Item {
-  id: string
-  quantity: number
+  id: string;
+  quantity: number;
 }
 export interface Order {
-  id: number
-  items: CoffeeInCart[]
+  id: number;
+  items: CoffeeInCart[];
 }
 
 interface CoffeeInCart {
@@ -42,21 +43,31 @@ interface CoffeeInCart {
   image: string;
   quantity: number;
   subTotal: number;
-} 
+}
+
+interface PaymentMethod {
+  method: string;
+  juros: number;
+}
 
 const DELIVERY_PRICE = 3.75;
 
 export function Cart() {
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>({
+    method: "cash",
+    juros: 1,
+  });
+
   const [coffeesInCart, setCoffeesInCart] = useState<CoffeeInCart[]>([
     {
       id: "0",
       title: "Expresso Tradicional",
       description: "O tradicional café feito com água quente e grãos moídos",
       tags: ["tradicional", "gelado"],
-      price: 6.90,
+      price: 6.9,
       image: "/images/coffees/expresso.png",
       quantity: 1,
-      subTotal: 6.90,
+      subTotal: 6.9,
     },
     {
       id: "1",
@@ -66,48 +77,49 @@ export function Cart() {
       price: 9.95,
       image: "/images/coffees/americano.png",
       quantity: 2,
-      subTotal: 19.90,
+      subTotal: 19.9,
     },
     {
       id: "2",
       title: "Expresso Cremoso",
       description: "Café expresso tradicional com espuma cremosa",
       tags: ["especial"],
-      price: 16.50,
+      price: 16.5,
       image: "/images/coffees/expresso-cremoso.png",
       quantity: 3,
-      subTotal: 49.50,
-    }
+      subTotal: 49.5,
+    },
   ]);
 
   const amountTags: string[] = [];
-  
-  coffeesInCart.map(coffee => coffee.tags.map((tag) => {
-    if (!amountTags.includes(tag)) {
-      amountTags.push(tag);
-    }
-  }));
-  
+
+  coffeesInCart.map((coffee) =>
+    coffee.tags.map((tag) => {
+      if (!amountTags.includes(tag)) {
+        amountTags.push(tag);
+      }
+    })
+  );
+
   const totalItemsPrice = coffeesInCart.reduce((currencyValue, coffee) => {
-    return currencyValue + coffee.price * coffee.quantity
+    return currencyValue + coffee.price * coffee.quantity;
   }, 0);
 
   function handleItemIncrement(id: string) {
     setCoffeesInCart((prevState) =>
       prevState.map((coffee) => {
         if (coffee.id === id) {
-          const coffeeQuantity = coffee.quantity + 1
-          const subTotal = coffee.price * coffeeQuantity
+          const coffeeQuantity = coffee.quantity + 1;
+          const subTotal = coffee.price * coffeeQuantity;
           return {
             ...coffee,
             quantity: coffeeQuantity,
             subTotal,
-          }
+          };
         }
-        return coffee
-      }),
-    )
-    
+        return coffee;
+      })
+    );
   }
 
   function handleItemDecrement(itemId: string) {
@@ -120,75 +132,87 @@ export function Cart() {
             ...coffee,
             quantity: coffeeQuantity,
             subTotal,
-          }
+          };
         }
-        return coffee
-      }),
-    )
+        return coffee;
+      })
+    );
   }
 
   function handleItemRemove(itemId: string) {
     setCoffeesInCart((prevState) =>
-      prevState.filter((coffee) => coffee.id !== itemId),
-    )
+      prevState.filter((coffee) => coffee.id !== itemId)
+    );
   }
 
   return (
     <Container>
-      
-
       <InfoContainer>
-      <PaymentContainer>
-            <PaymentHeading>
-              <CurrencyDollar size={22} />
+        <PaymentContainer>
+          <PaymentHeading>
+            <CurrencyDollar size={22} />
 
-              <div>
-                <span>Pagamento</span>
+            <div>
+              <span>Pagamento</span>
 
-                <p>
-                  O pagamento é feito na entrega. Escolha a forma que deseja
-                  pagar
-                </p>
-              </div>
-            </PaymentHeading>
+              <p>
+                O pagamento é feito na entrega. Escolha a forma que deseja pagar
+              </p>
+            </div>
+          </PaymentHeading>
 
-            <PaymentOptions>
-              <div>
-                <Radio
-                  isSelected={false}
-                  onClick={() => {}}
-                  value="credit"
-                >
-                  <CreditCard size={16} />
-                  <span>Cartão de crédito</span>
-                </Radio>
+          <PaymentOptions>
+            <div>
+              <Radio
+                isSelected={paymentMethod.method === "credit"}
+                onClick={() => {
+                  setPaymentMethod({
+                    method: "credit",
+                    juros: 1.0385,
+                  });
+                }}
+                value="credit"
+              >
+                <CreditCard size={16} />
+                <span>Cartão de crédito</span>
+              </Radio>
 
-                <Radio
-                  isSelected={false}
-                  onClick={() => {}}
-                  value="debit"
-                >
-                  <Bank size={16} />
-                  <span>Cartão de débito</span>
-                </Radio>
+              <Radio
+                isSelected={paymentMethod.method === "debit"}
+                onClick={() => {
+                  setPaymentMethod({
+                    method: "debit",
+                    juros: 1.0185,
+                  });
+                }}
+                value="debit"
+              >
+                <Bank size={16} />
+                <span>Cartão de débito</span>
+              </Radio>
 
-                <Radio
-                  isSelected={true}
-                  onClick={() => {}}
-                  value="cash"
-                >
-                  <Money size={16} />
-                  <span>Pix ou Dinheiro</span>
-                </Radio>
-              </div>
+              <Radio
+                isSelected={paymentMethod.method === "cash"}
+                onClick={() => {
+                  setPaymentMethod({
+                    method: "cash",
+                    juros: 1,
+                  });
+                }}
+                value="cash"
+              >
+                <Money size={16} />
+                <span>Pix ou Dinheiro</span>
+              </Radio>
+            </div>
 
-              {false ? (
-                <PaymentErrorMessage role="alert">
-                  <span>Selecione uma forma de pagamento</span>
-                </PaymentErrorMessage>
-              ) : null}
-            </PaymentOptions>
-          </PaymentContainer>
+            {false ? (
+              <PaymentErrorMessage role="alert">
+                <span>Selecione uma forma de pagamento</span>
+              </PaymentErrorMessage>
+            ) : null}
+          </PaymentOptions>
+        </PaymentContainer>
       </InfoContainer>
 
       <InfoContainer>
@@ -203,11 +227,11 @@ export function Cart() {
 
                   <div>
                     <span>{coffee.title}</span>
-                      <Tags>
-                        {coffee.tags.map((tag) => (
-                          <span key={tag}>{tag}</span>
-                        ))}
-                      </Tags>
+                    <Tags>
+                      {coffee.tags.map((tag) => (
+                        <span key={tag}>{tag}</span>
+                      ))}
+                    </Tags>
 
                     <CoffeeInfo>
                       <QuantityInput
@@ -235,9 +259,9 @@ export function Cart() {
             <div>
               <span>Total de itens</span>
               <span>
-                {new Intl.NumberFormat('pt-br', {
-                  currency: 'BRL',
-                  style: 'currency',
+                {new Intl.NumberFormat("pt-br", {
+                  currency: "BRL",
+                  style: "currency",
                 }).format(totalItemsPrice)}
               </span>
             </div>
@@ -245,20 +269,39 @@ export function Cart() {
             <div>
               <span>Entrega</span>
               <span>
-                {new Intl.NumberFormat('pt-br', {
-                  currency: 'BRL',
-                  style: 'currency',
+                {new Intl.NumberFormat("pt-br", {
+                  currency: "BRL",
+                  style: "currency",
                 }).format(DELIVERY_PRICE)}
+              </span>
+            </div>
+            <div>
+              <span>Método de Pagamento: </span>
+              <span>
+                {paymentMethod.method === "cash"
+                  ? "Pix ou Dinheiro"
+                  : paymentMethod.method === "credit"
+                  ? "Crédito"
+                  : "Débito"}
+              </span>
+            </div>
+            <div>
+              <span>Taxa de Juros</span>
+              <span>
+                {`+ ${((paymentMethod.juros - 1) * 100).toFixed(2)}%`}
               </span>
             </div>
 
             <div>
               <span>Total</span>
               <span>
-                {new Intl.NumberFormat('pt-br', {
-                  currency: 'BRL',
-                  style: 'currency',
-                }).format(totalItemsPrice + (DELIVERY_PRICE * amountTags.length))}
+                {new Intl.NumberFormat("pt-br", {
+                  currency: "BRL",
+                  style: "currency",
+                }).format(
+                  (totalItemsPrice + DELIVERY_PRICE * amountTags.length) *
+                    paymentMethod.juros
+                )}
               </span>
             </div>
           </CartTotalInfo>
@@ -268,7 +311,8 @@ export function Cart() {
           </CheckoutButton>
         </CartTotal>
       </InfoContainer>
+
       {/* <Success /> */}
     </Container>
-  )
+  );
 }

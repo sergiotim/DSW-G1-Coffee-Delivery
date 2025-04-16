@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import { useCart } from '../../hooks/useCart'
 import { Container, Heading, Info, InfoContent, Order } from './styles'
 
+
 export function Success() {
   const { orders } = useCart()
   const { orderId } = useParams()

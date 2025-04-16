@@ -1,9 +1,12 @@
 import { Fragment, useState } from 'react'
 import {
+  Bank,
+  CreditCard,
+  CurrencyDollar,
+  Money,
   Trash,
 } from '@phosphor-icons/react'
 
-import { QuantityInput } from '../../components/Form/QuantityInput'
 import {
   CartTotal,
   CartTotalInfo,
@@ -12,8 +15,14 @@ import {
   CoffeeInfo,
   Container,
   InfoContainer,
+  PaymentContainer,
+  PaymentErrorMessage,
+  PaymentHeading,
+  PaymentOptions,
 } from './styles'
-import { Tags } from '../../components/CoffeeCard/styles'
+import { Tags } from '../../components/CoffeeCard/styles';
+import { QuantityInput } from '../../components/Form/QuantityInput';
+import { Radio } from '../../components/Form/Radio';
 
 export interface Item {
   id: string
@@ -73,35 +82,114 @@ export function Cart() {
 
   const amountTags: string[] = [];
   
-  /** Adicionando os tags dos cafés no array amountTags
-   * Se o tag já existir, não adiciona*/ 
   coffeesInCart.map(coffee => coffee.tags.map((tag) => {
     if (!amountTags.includes(tag)) {
       amountTags.push(tag);
     }
   }));
   
-  // valor total dos cafés no carrinho
   const totalItemsPrice = coffeesInCart.reduce((currencyValue, coffee) => {
     return currencyValue + coffee.price * coffee.quantity
-  }, 0)
+  }, 0);
 
-  
-  function handleItemIncrement(itemId: string) {
-    // coloque seu código aqui
+  function handleItemIncrement(id: string) {
+    setCoffeesInCart((prevState) =>
+      prevState.map((coffee) => {
+        if (coffee.id === id) {
+          const coffeeQuantity = coffee.quantity + 1
+          const subTotal = coffee.price * coffeeQuantity
+          return {
+            ...coffee,
+            quantity: coffeeQuantity,
+            subTotal,
+          }
+        }
+        return coffee
+      }),
+    )
+    
   }
 
   function handleItemDecrement(itemId: string) {
-    // coloque seu código aqui
+    setCoffeesInCart((prevState) =>
+      prevState.map((coffee) => {
+        if (coffee.id === itemId && coffee.quantity > 1) {
+          const coffeeQuantity = coffee.quantity - 1;
+          const subTotal = coffee.price * coffeeQuantity;
+          return {
+            ...coffee,
+            quantity: coffeeQuantity,
+            subTotal,
+          }
+        }
+        return coffee
+      }),
+    )
   }
 
   function handleItemRemove(itemId: string) {
-    // coloque seu código aqui
+    setCoffeesInCart((prevState) =>
+      prevState.filter((coffee) => coffee.id !== itemId),
+    )
   }
 
-console.log({frete: DELIVERY_PRICE * amountTags.length});
   return (
     <Container>
+      
+
+      <InfoContainer>
+      <PaymentContainer>
+            <PaymentHeading>
+              <CurrencyDollar size={22} />
+
+              <div>
+                <span>Pagamento</span>
+
+                <p>
+                  O pagamento é feito na entrega. Escolha a forma que deseja
+                  pagar
+                </p>
+              </div>
+            </PaymentHeading>
+
+            <PaymentOptions>
+              <div>
+                <Radio
+                  isSelected={false}
+                  onClick={() => {}}
+                  value="credit"
+                >
+                  <CreditCard size={16} />
+                  <span>Cartão de crédito</span>
+                </Radio>
+
+                <Radio
+                  isSelected={false}
+                  onClick={() => {}}
+                  value="debit"
+                >
+                  <Bank size={16} />
+                  <span>Cartão de débito</span>
+                </Radio>
+
+                <Radio
+                  isSelected={true}
+                  onClick={() => {}}
+                  value="cash"
+                >
+                  <Money size={16} />
+                  <span>Pix ou Dinheiro</span>
+                </Radio>
+              </div>
+
+              {false ? (
+                <PaymentErrorMessage role="alert">
+                  <span>Selecione uma forma de pagamento</span>
+                </PaymentErrorMessage>
+              ) : null}
+            </PaymentOptions>
+          </PaymentContainer>
+      </InfoContainer>
 
       <InfoContainer>
         <h2>Cafés selecionados</h2>
@@ -180,6 +268,7 @@ console.log({frete: DELIVERY_PRICE * amountTags.length});
           </CheckoutButton>
         </CartTotal>
       </InfoContainer>
+      {/* <Success /> */}
     </Container>
   )
 }

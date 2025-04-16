@@ -7,7 +7,8 @@
       "tags": ["tradicional"],
       "price": 9.90,
       "image": "/images/coffees/expresso.png",
-      "quantity": 0
+      "quantity": 0,
+      "favorite": false
       
     },
     {
@@ -17,7 +18,8 @@
       "tags": ["tradicional"],
       "price": 9.90,
       "image": "/images/coffees/americano.png",
-      "quantity": 0
+      "quantity": 0,
+      "favorite": false
     },
     {
       "id": "2",
@@ -26,7 +28,8 @@
       "tags": ["tradicional"],
       "price": 9.90,
       "image": "/images/coffees/expresso-cremoso.png",
-      "quantity": 0
+      "quantity": 0,
+      "favorite": false
     },
     {
       "id": "3",
@@ -35,7 +38,8 @@
       "tags": ["tradicional", "gelado"],
       "price": 9.90,
       "image": "/images/coffees/cafe-gelado.png",
-      "quantity": 0
+      "quantity": 0,
+      "favorite": false
     },
     {
       "id": "4",
@@ -44,7 +48,8 @@
       "tags": ["tradicional", "com leite"],
       "price": 9.90,
       "image": "/images/coffees/cafe-com-leite.png",
-      "quantity": 0
+      "quantity": 0,
+      "favorite": false
     },
     {
       "id": "5",
@@ -53,7 +58,8 @@
       "tags": ["tradicional", "com leite"],
       "price": 9.90,
       "image": "/images/coffees/latte.png",
-      "quantity": 0
+      "quantity": 0,
+      "favorite": false
     },
     {
       "id": "6",
@@ -62,7 +68,8 @@
       "tags": ["tradicional", "com leite"],
       "price": 9.90,
       "image": "/images/coffees/capuccino.png",
-      "quantity": 0
+      "quantity": 0,
+      "favorite": false
     },
     {
       "id": "7",
@@ -71,7 +78,8 @@
       "tags": ["tradicional", "com leite"],
       "price": 9.90,
       "image": "/images/coffees/macchiato.png",
-      "quantity": 0
+      "quantity": 0,
+      "favorite": false
     },
     {
       "id": "8",
@@ -80,7 +88,8 @@
       "tags": ["tradicional", "com leite"],
       "price": 9.90,
       "image": "/images/coffees/mocaccino.png",
-      "quantity": 0
+      "quantity": 0,
+      "favorite": false
     },
     {
       "id": "9",
@@ -89,7 +98,8 @@
       "tags": ["especial", "com leite"],
       "price": 9.90,
       "image": "/images/coffees/chocolate-quente.png",
-      "quantity": 0
+      "quantity": 0,
+      "favorite": false
     },
     {
       "id": "10",
@@ -98,7 +108,8 @@
       "tags": ["especial", "alcoólico", "gelado"],
       "price": 9.90,
       "image": "/images/coffees/cubano.png",
-      "quantity": 0
+      "quantity": 0,
+      "favorite": false
     },
     {
       "id": "11",
@@ -107,7 +118,8 @@
       "tags": ["especial"],
       "price": 9.90,
       "image": "/images/coffees/havaiano.png",
-      "quantity": 0
+      "quantity": 0,
+      "favorite": false
     },
     {
       "id": "12",
@@ -116,7 +128,8 @@
       "tags": ["especial"],
       "price": 9.90,
       "image": "/images/coffees/arabe.png",
-      "quantity": 0
+      "quantity": 0,
+      "favorite": false
     },
     {
       "id": "13",
@@ -125,7 +138,8 @@
       "tags": ["especial", "alcoólico"],
       "price": 9.90,
       "image": "/images/coffees/irlandes.png",
-      "quantity": 0
+      "quantity": 0,
+      "favorite": false
     }
   ]
 }

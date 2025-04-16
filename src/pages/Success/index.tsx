@@ -39,14 +39,26 @@ export function Success() {
 
               <div>
                 <span>
-                  Entrega em{' '}
+                Resumo do Pedido: <br/>
+                -------------------------- <br/>
                   <strong>
-                    {orderInfo.street}, {orderInfo.number}
+                  1x Café Expresso       R$ 9,90
+                  </strong>
+
+1x Café Expresso       R$ 9,90
+2x Cappuccino          R$ 21,80
+Frete (2 itens)        R$ 7,50
+--------------------------
+Total:                 R$ 39,20
+
+💳 Método de Pagamento: Pix
+                  <strong>
+                    
                   </strong>
                 </span>
 
                 <span>
-                  {orderInfo.neighborhood} - {orderInfo.city},{orderInfo.state}
+                  
                 </span>
               </div>
             </div>
@@ -75,6 +87,7 @@ export function Success() {
               <div>
                 <span>Pagamento na entrega</span>
 
+                <strong>{paymentMethod[orderInfo.paymentMethod]}</strong>
                 <strong>{paymentMethod[orderInfo.paymentMethod]}</strong>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import { ShoppingCart } from '@phosphor-icons/react'
+import {Heart} from '@phosphor-icons/react'
 import { useTheme } from 'styled-components'
 
 import { QuantityInput } from '../Form/QuantityInput'
@@ -22,48 +22,47 @@ type CoffeeCardProps = {
     price: number;
     image: string;
     quantity: number
+    favorite: boolean;
   },
   incrementQuantity: (id: string) => void
   decrementQuantity: (id: string) => void
+  handleFavoriteCoffee: (id: string) => void
 }
 
-export function CoffeeCard({ }: CoffeeCardProps) {
+export function CoffeeCard({ coffee, incrementQuantity, decrementQuantity }: CoffeeCardProps) {
   const theme = useTheme();
-
-  function handleAddItem() {
-    console.log('Adicionar item ao carrinho')
-    return;
-  }
+  /**
+   * Cor brancoa do coração quando o café não é favorito: theme.colors['base-card']
+   * Cor vermelha do coração quando o café é favorito: "red" 
+   * **/
 
   return (
     <Container>
       <CoffeeImg src={"/images/coffees/expresso-cremoso.png"} alt="Expresso Tradicional" />
 
       <Tags>
-        {/** Aqui você pode mapear os tags do café */ }
-        <span key={'Tradicional'}>Tradicional</span>
-        <span key={'Comum'}>Comum</span>
+        {coffee.tags.map((tag) => <span key={tag}>{tag}</span>)}
       </Tags>
 
-      <Title>Expresso Tradicional</Title>
+      <Title>{coffee.title}</Title>
 
-      <Description>Café expresso tradicional com espuma cremosa</Description>
+      <Description>{coffee.description}</Description>
 
       <Control>
         <Price>
           <span>R$</span>
-          <span>{4.90.toFixed(2)}</span> {/** Aqui você pode passar o preço do café */}
+          <span>{coffee.price.toFixed(2)}</span> 
         </Price>
 
         <Order $itemAdded={false}>
           <QuantityInput
-            quantity={5} // Aqui você pode passar a quantidade do café
-            incrementQuantity={() => {}} // Aqui você pode passar a função de incrementar
-            decrementQuantity={() => {}} // Aqui você pode passar a função de decrementar
+            quantity={coffee.quantity }
+            incrementQuantity={() => incrementQuantity(coffee.id)}
+            decrementQuantity={() => decrementQuantity(coffee.id)}
           />
 
-          <button onClick={handleAddItem}>
-            <ShoppingCart size={22} color={theme.colors['base-card']} />
+          <button onClick={() => {}}>
+            <Heart size={22}  color={theme.colors['base-card']} />
           </button>
         </Order>
       </Control>

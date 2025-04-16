@@ -1,9 +1,12 @@
 import { Fragment, useState } from 'react'
 import {
+  Bank,
+  CreditCard,
+  CurrencyDollar,
+  Money,
   Trash,
 } from '@phosphor-icons/react'
 
-import { QuantityInput } from '../../components/Form/QuantityInput'
 import {
   CartTotal,
   CartTotalInfo,
@@ -12,8 +15,14 @@ import {
   CoffeeInfo,
   Container,
   InfoContainer,
+  PaymentContainer,
+  PaymentErrorMessage,
+  PaymentHeading,
+  PaymentOptions,
 } from './styles'
-import { Tags } from '../../components/CoffeeCard/styles'
+import { Tags } from '../../components/CoffeeCard/styles';
+import { QuantityInput } from '../../components/Form/QuantityInput';
+import { Radio } from '../../components/Form/Radio';
 
 export interface Item {
   id: string
@@ -38,6 +47,7 @@ interface CoffeeInCart {
 const DELIVERY_PRICE = 3.75;
 
 export function Cart() {
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'credit' | 'debit' | 'cash'>('cash');
   const [coffeesInCart, setCoffeesInCart] = useState<CoffeeInCart[]>([
     {
       id: "0",
@@ -126,9 +136,63 @@ export function Cart() {
     )
   }
 
-console.log({frete: DELIVERY_PRICE * amountTags.length});
   return (
     <Container>
+      
+
+      <InfoContainer>
+      <PaymentContainer>
+            <PaymentHeading>
+              <CurrencyDollar size={22} />
+
+              <div>
+                <span>Pagamento</span>
+
+                <p>
+                  O pagamento é feito na entrega. Escolha a forma que deseja
+                  pagar
+                </p>
+              </div>
+            </PaymentHeading>
+
+            <PaymentOptions>
+              <div>
+                <Radio
+                  isSelected={selectedPaymentMethod === 'credit'}
+                  onClick={() => setSelectedPaymentMethod('credit')}
+                  value="credit"
+                >
+                  <CreditCard size={16} />
+                  <span>Cartão de crédito</span>
+                </Radio>
+
+                <Radio
+                  onClick={() => setSelectedPaymentMethod('debit')}
+                  isSelected={selectedPaymentMethod === 'debit'}
+                  value="debit"
+                >
+                  <Bank size={16} />
+                  <span>Cartão de débito</span>
+                </Radio>
+
+                <Radio
+                  onClick={() => setSelectedPaymentMethod('cash')}
+                  isSelected={selectedPaymentMethod === 'cash'}
+                  value="cash"
+                >
+                  <Money size={16} />
+                  <span>Pix ou Dinheiro</span>
+                </Radio>
+              </div>
+
+              {false ? (
+                <PaymentErrorMessage role="alert">
+                  <span>Selecione uma forma de pagamento</span>
+                </PaymentErrorMessage>
+              ) : null}
+            </PaymentOptions>
+          </PaymentContainer>
+      </InfoContainer>
 
       <InfoContainer>
         <h2>Cafés selecionados</h2>
@@ -207,6 +271,7 @@ console.log({frete: DELIVERY_PRICE * amountTags.length});
           </CheckoutButton>
         </CartTotal>
       </InfoContainer>
+      {/* <Success /> */}
     </Container>
   )
 }

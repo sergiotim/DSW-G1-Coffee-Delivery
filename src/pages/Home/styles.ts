@@ -65,6 +65,16 @@ export const Info = styled.div`
   }
 `
 
+export const Navbar = styled.nav`
+  flex-direction: row;
+  display: flex;
+  align-items: left;
+  gap: 8px;
+  margin-bottom: 22px;
+  justify-content: left;
+  padding: 0 20px;
+  `;
+
 export const CoffeeList = styled.section`
   max-width: 1160px;
   padding: 32px 20px 150px;

@@ -76,6 +76,14 @@ export function Home() {
     );
   }
 
+  function toggleFilter(tag: string) {
+    setFilter((prev) => (prev === tag ? "" : tag));
+  }
+
+  const filteredCoffees = [...coffees]
+    .filter((coffee) => (filter ? coffee.tags.includes(filter) : true))
+    .sort((a, b) => a.title.localeCompare(b.title));
+
   return (
     <div>
       <Hero>
@@ -142,62 +150,31 @@ export function Home() {
       <CoffeeList>
         <h2>Nossos cafés</h2>
         <Navbar>
-          <Radio
-            onClick={() => {
-              filter === "tradicional"
-                ? setFilter("")
-                : setFilter("tradicional");
-            }}
-            isSelected={filter === "tradicional"}
-            value="tradicional"
-          >
-            <span>Tradicional</span>
-          </Radio>
-          <Radio
-            onClick={() => {
-              filter === "gelado" ? setFilter("") : setFilter("gelado");
-            }}
-            isSelected={filter === "gelado"}
-            value="gelado"
-          >
-            <span>Gelado</span>
-          </Radio>
-          <Radio
-            onClick={() => {
-              filter === "com leite" ? setFilter("") : setFilter("com leite");
-            }}
-            isSelected={filter === "com leite"}
-            value="com leite"
-          >
-            <span>Com leite</span>
-          </Radio>
+          {["tradicional", "gelado", "com leite"].map((tag) => (
+            <Radio
+              onClick={() => {
+                toggleFilter(tag)
+              }}
+              isSelected={filter === tag}
+              value={tag}
+            >
+              <span>{tag}</span>
+            </Radio>
+          ))}
+
+          
         </Navbar>
 
         <div>
-          {filter === ""
-            ? [...coffees]
-                .sort((a, b) => a.title.localeCompare(b.title))
-                .map((coffee) => (
-                  <CoffeeCard
-                    key={coffee.id}
-                    coffee={coffee}
-                    incrementQuantity={incrementQuantity}
-                    decrementQuantity={decrementQuantity}
-                    handleFavoriteCoffee={handleFavoriteCoffee}
-                  />
-                ))
-            : [...coffees]
-                .filter((coffee) => coffee.tags.includes(filter))
-                .sort((a, b) => a.title.localeCompare(b.title))
-                .map((coffee) => (
-                  <CoffeeCard
-                    key={coffee.id}
-                    coffee={coffee}
-                    incrementQuantity={incrementQuantity}
-                    decrementQuantity={decrementQuantity}
-                    handleFavoriteCoffee={handleFavoriteCoffee}
-                  />
-                ))}
+          {filteredCoffees.map((coffee) => (
+            <CoffeeCard
+              key={coffee.id}
+              coffee={coffee}
+              incrementQuantity={incrementQuantity}
+              decrementQuantity={decrementQuantity}
+              handleFavoriteCoffee={handleFavoriteCoffee}
+            />
+          ))}
         </div>
       </CoffeeList>
     </div>

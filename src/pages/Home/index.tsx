@@ -175,17 +175,9 @@ export function Home() {
 
         <div>
           {filter === ""
-            ? coffees.map((coffee) => (
-                <CoffeeCard
-                  key={coffee.id}
-                  coffee={coffee}
-                  incrementQuantity={incrementQuantity}
-                  decrementQuantity={decrementQuantity}
-                  handleFavoriteCoffee={handleFavoriteCoffee}
-                />
-              ))
-            : coffees.map((coffee) =>
-                coffee.tags.includes(filter) ? (
+            ? [...coffees]
+                .sort((a, b) => a.title.localeCompare(b.title))
+                .map((coffee) => (
                   <CoffeeCard
                     key={coffee.id}
                     coffee={coffee}
@@ -193,10 +185,19 @@ export function Home() {
                     decrementQuantity={decrementQuantity}
                     handleFavoriteCoffee={handleFavoriteCoffee}
                   />
-                ) : (
-                  ""
-                )
-              )}
+                ))
+            : [...coffees]
+                .filter((coffee) => coffee.tags.includes(filter))
+                .sort((a, b) => a.title.localeCompare(b.title))
+                .map((coffee) => (
+                  <CoffeeCard
+                    key={coffee.id}
+                    coffee={coffee}
+                    incrementQuantity={incrementQuantity}
+                    decrementQuantity={decrementQuantity}
+                    handleFavoriteCoffee={handleFavoriteCoffee}
+                  />
+                ))}
         </div>
       </CoffeeList>
     </div>
